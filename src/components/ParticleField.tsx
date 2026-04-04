@@ -22,38 +22,67 @@ export default function ParticleField() {
     if (!ctx) return;
 
     let animationId: number;
+    let isVisible = true;
     const particles: Particle[] = [];
-    const PARTICLE_COUNT = 80;
-    const CONNECTION_DISTANCE = 120;
+    const PARTICLE_COUNT = 40;
+    const CONNECTION_DISTANCE = 100;
+    const CONNECTION_DISTANCE_SQ = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+      ctx.scale(dpr, dpr);
     };
     resize();
     window.addEventListener("resize", resize);
 
+    const logicalW = () => canvas.width / dpr;
+    const logicalH = () => canvas.height / dpr;
+
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        x: Math.random() * logicalW(),
+        y: Math.random() * logicalH(),
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() * 1.5 + 0.5,
         opacity: Math.random() * 0.5 + 0.2,
       });
     }
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animationId) animate();
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!isVisible) {
+        animationId = 0;
+        return;
+      }
+
+      const w = logicalW();
+      const h = logicalH();
+
+      ctx.clearRect(0, 0, w, h);
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -64,14 +93,14 @@ export default function ParticleField() {
           const p2 = particles[j];
           const dx = p.x - p2.x;
           const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < CONNECTION_DISTANCE) {
+          if (distSq < CONNECTION_DISTANCE_SQ) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = `rgba(99, 102, 241, ${
-              0.1 * (1 - dist / CONNECTION_DISTANCE)
+              0.08 * (1 - distSq / CONNECTION_DISTANCE_SQ)
             })`;
             ctx.stroke();
           }
@@ -84,8 +113,9 @@ export default function ParticleField() {
     animate();
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationId) cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
+      observer.disconnect();
     };
   }, []);
 
