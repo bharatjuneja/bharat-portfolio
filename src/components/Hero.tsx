@@ -18,7 +18,7 @@ export default function Hero() {
           className="mb-6"
         >
           <div className="inline-block px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-sm font-medium mb-8">
-            Senior iOS Engineer
+            SDE3
           </div>
         </motion.div>
 

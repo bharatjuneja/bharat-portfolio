@@ -13,10 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bharat Juneja | Senior iOS Engineer",
+  title: "Bharat Juneja | SDE3",
   description:
-    "Portfolio of Bharat Juneja — Senior iOS Engineer with 8+ years of experience building consumer-grade mobile applications.",
+    "Portfolio of Bharat Juneja — SDE3 with 8+ years of experience building consumer-grade iOS applications.",
   keywords: [
+    "SDE3",
     "iOS Engineer",
     "Swift",
     "UIKit",
