@@ -18,7 +18,7 @@ export default function Hero() {
           className="mb-6"
         >
           <div className="inline-block px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-sm font-medium mb-8">
-            SDE3
+            SDE 3
           </div>
         </motion.div>
 

@@ -6,7 +6,7 @@ import { useRef } from "react";
 const experiences = [
   {
     company: "Nykaa",
-    role: "SDE3",
+    role: "SDE 3",
     period: "Jan 2023 — Present",
     location: "India",
     highlights: [

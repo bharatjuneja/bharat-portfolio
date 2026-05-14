@@ -39,7 +39,7 @@ export default function About() {
             className="space-y-4 text-muted leading-relaxed"
           >
             <p>
-              I&apos;m an SDE3 with a passion for building high-performance,
+              I work as SDE 3, with a passion for building high-performance,
               scalable iOS applications. Over the past 8+ years, I&apos;ve
               worked across E-commerce, Ed-Tech, and IoT domains, delivering
               products used by millions.

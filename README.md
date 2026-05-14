@@ -1,6 +1,6 @@
 # Bharat Juneja — Portfolio
 
-Interactive portfolio website for Bharat Juneja, SDE3 with 8+ years of experience building consumer-grade iOS applications.
+Interactive portfolio website for Bharat Juneja, SDE 3 with 8+ years of experience building consumer-grade iOS applications.
 
 ## Tech Stack
 
